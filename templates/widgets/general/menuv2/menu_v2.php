@@ -748,7 +748,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
 
                                         <div class="listivo-user-dropdown listivo-menu-v2__register-dropdown" style="display: none; position: absolute; top: 100%; right: 0; min-width: 220px; z-index: 1000;">
                                             <div class="listivo-user-dropdown__list" style="background: #fff; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden;">
-                                                <a class="listivo-user-dropdown__item" href="/buyer-register">
+                                                <a class="listivo-user-dropdown__item" href="<?php echo esc_url(home_url('/buyer-register'))?>">
                                                     <div class="listivo-user-dropdown__icon">
                                                         <i class="far fa-user"></i>
                                                     </div>
