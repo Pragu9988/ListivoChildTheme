@@ -696,6 +696,53 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
                 <?php endif; ?>
             <?php endif; ?>
 
+            <!-- Custom Fields for Business Account -->
+            <template>
+                <div v-if="registerForm.accountType === 'business'">
+                    
+                    <!-- Agency Name -->
+                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+                        <div class="listivo-input-v2__icon listivo-icon-v2">
+                            <i class="far fa-building"></i>
+                        </div>
+                        <input type="text" name="agency_name" class="listivo-extra-field" placeholder="Agency Name *" required>
+                    </div>
+
+                    <!-- Director Name -->
+                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+                        <div class="listivo-input-v2__icon listivo-icon-v2">
+                            <i class="far fa-user"></i>
+                        </div>
+                        <input type="text" name="director_name" class="listivo-extra-field" placeholder="Director Name *" required>
+                    </div>
+
+                    <!-- Business Trading Name -->
+                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+                        <div class="listivo-input-v2__icon listivo-icon-v2">
+                            <i class="far fa-id-badge"></i>
+                        </div>
+                        <input type="text" name="business_trading_name" class="listivo-extra-field" placeholder="Business Trading Name *" required>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+                        <div class="listivo-input-v2__icon listivo-icon-v2">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <input type="text" name="address" class="listivo-extra-field" placeholder="Address *" required>
+                    </div>
+
+                    <!-- Website -->
+                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+                        <div class="listivo-input-v2__icon listivo-icon-v2">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <input type="url" name="website_url" class="listivo-extra-field" placeholder="Website (full url with http)">
+                    </div>
+
+                </div>
+            </template>
+
             <?php if (tdf_settings()->isFullNameEnabledForPrivateAccount() && (tdf_settings()->isFullNameRequiredForPrivateAccount() || tdf_settings()->showFullNameFieldOnRegisterFormForPrivateAccount())) : ?>
                 <template>
                     <div
@@ -918,3 +965,28 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
         </form>
     </div>
 </lst-register>
+<script type="text/javascript">
+    jQuery(function($) {
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            if (options.url && options.url.indexOf('listivo/user/register') !== -1) {
+                var extraData = {};
+                $('.listivo-extra-field').each(function() {
+                    // Only include if visible (business account selected)
+                    if ($(this).is(':visible')) {
+                        extraData[$(this).attr('name')] = $(this).val();
+                    }
+                });
+                
+                if (!$.isEmptyObject(extraData)) {
+                     var extraStr = $.param(extraData);
+                     if (typeof options.data === 'string') {
+                         options.data += '&' + extraStr;
+                     } else if (typeof options.data === 'object') {
+                         $.extend(options.data, extraData);
+                     }
+                }
+            }
+        });
+    });
+</script>
+

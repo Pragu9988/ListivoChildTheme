@@ -213,4 +213,11 @@ jQuery(function ($) {
       }
   }
 
+  // Menu Dropdown Hover Logic for Register
+  $('.listivo-menu-v2__register-wrapper').on('mouseenter', function() {
+      $(this).find('.listivo-menu-v2__register-dropdown').stop(true, true).fadeIn(200);
+  }).on('mouseleave', function() {
+      $(this).find('.listivo-menu-v2__register-dropdown').stop(true, true).fadeOut(200);
+  });
+
 });
