@@ -348,7 +348,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                 <div class="listivo-menu-v2__user-menu">
                                     <div class="listivo-user-dropdown">
                                         <div class="listivo-user-dropdown__list">
-                                            <?php if ($lstUser->canCreateModels() && !is_tdf_buyer()) : ?>
+                                            <?php if ($lstUser->canCreateModels() || !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_CREATE)); ?>"
@@ -381,7 +381,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?>
 
-                                            <?php if (tdf_current_user()->isModerator() && !is_tdf_buyer()) : ?>
+                                            <!-- <?php if (tdf_current_user()->isModerator() || !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_MODERATION)); ?>"
@@ -418,9 +418,9 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                         </div>
                                                     </div>
                                                 </a>
-                                            <?php endif; ?>
+                                            <?php endif; ?> -->
 
-                                            <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && tdf_current_user()->canSeeOrders() && !is_tdf_buyer()) : ?>
+                                            <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && tdf_current_user()->canSeeOrders() || !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_ORDERS)); ?>"
@@ -439,9 +439,9 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                         <?php echo esc_html(tdf_string('orders')); ?>
                                                     </div>
                                                 </a>
-                                            <?php endif; ?>
+                                            <?php endif; ?> -->
 
-                                            <?php if ($lstUser->canCreateModels() && !is_tdf_buyer()) : ?>
+                                            <?php if ($lstUser->canCreateModels() || !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_LIST)); ?>"
@@ -569,7 +569,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?>
 
-                                            <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && $lstUser->canCreateModels() && !is_tdf_buyer()) : ?>
+                                            <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && $lstUser->canCreateModels() || !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_MY_ORDERS)); ?>"
@@ -589,7 +589,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                         <?php echo esc_html(tdf_string('my_orders')); ?>
                                                     </div>
                                                 </a>
-                                            <?php endif; ?>
+                                            <?php endif; ?> -->
 
                                             <a
                                                     class="listivo-user-dropdown__item"
