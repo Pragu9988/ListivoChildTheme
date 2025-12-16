@@ -292,9 +292,13 @@ global $lstCurrentWidget;
             </div>
 
             <div class="listivo-login-form__footer" style="text-align: center; margin-top: 15px;">
-                <?php echo esc_html__("Don't have an account?", 'listivo'); ?>
-                <a href="/register" class="listivo-login-form__register-link" style="font-weight: 600;">
-                    <?php echo esc_html__('Register now', 'listivo'); ?>
+                <?php echo esc_html__("Don't have an account? Register as ", 'listivo'); ?>
+                <a href="<?php echo esc_url(tdf_settings()->getRegisterPageUrl()); ?>" class="listivo-login-form__register-link" style="font-weight: 600;">
+                    <?php echo esc_html__('Seller', 'listivo'); ?>
+                </a>
+                <?php echo esc_html__('or', 'listivo'); ?>
+                <a href="<?php echo esc_url(home_url('/buyer-register/')); ?>" class="listivo-login-form__register-link" style="font-weight: 600;">
+                    <?php echo esc_html__('Buyer', 'listivo'); ?>
                 </a>
             </div>
 

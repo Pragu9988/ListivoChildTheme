@@ -91,47 +91,75 @@ jQuery(function ($) {
   });
 
   var stats = siteData;
+
+  function animateStat($el, value, suffix) {
+      if (!$el.length) return;
+      
+      var cleanVal = String(value).replace(/,/g, '');
+      var endNum = parseInt(cleanVal, 10);
+      var suffixStr = suffix || '';
+      
+      if (isNaN(endNum)) {
+          // Fallback if not a number
+          $el.contents().first().replaceWith(value + suffixStr);
+          return;
+      }
+
+      // Prepare start state
+      var startNum = 1;
+      var $wrapper = $('<span>' + startNum + suffixStr + '</span>');
+      
+      // Replace the content once
+      $el.contents().first().replaceWith($wrapper);
+      
+      var duration = 2000;
+      var startTime = null;
+
+      function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          
+          // Easing: EaseOutCubic (smoother, more visible counting)
+          var ease = 1 - Math.pow(1 - progress, 3);
+          
+          var current = Math.floor(ease * (endNum - startNum) + startNum);
+          
+          // formatting numbers with commas if needed, but keeping it simple for now based on input
+          // usually counters don't add commas during animation unless expensive
+          // let's add commas back if the original had them? 
+          // The user input 'value' might have commas. Let's try to format 'current' similarly if endNum is large.
+          var currentStr = current.toLocaleString('en-US'); // standardized comma format
+          
+          $wrapper.text(currentStr + suffixStr);
+          
+          if (progress < 1) {
+              window.requestAnimationFrame(step);
+          } else {
+              // Ensure final value matches the input exactly (including specific formatting)
+              $wrapper.text(value + suffixStr);
+          }
+      }
+      
+      window.requestAnimationFrame(step);
+  }
+
   var $stats = $(".listivo-attributes-v3");
-
-  $stats.find(".listivo-attributes-v3__attribute:nth-child(1) .listivo-attributes-v3__value")
-        .contents().first().replaceWith(stats.listings);
-
-  $stats.find(".listivo-attributes-v3__attribute:nth-child(2) .listivo-attributes-v3__value")
-        .contents().first().replaceWith(stats.users);
-
-  $stats.find(".listivo-attributes-v3__attribute:nth-child(3) .listivo-attributes-v3__value")
-        .contents().first().replaceWith(stats.businesses);
-
-  $stats.find(".listivo-attributes-v3__attribute:nth-child(4) .listivo-attributes-v3__value")
-        .contents().first().replaceWith(stats.categories);
+  animateStat($stats.find(".listivo-attributes-v3__attribute:nth-child(1) .listivo-attributes-v3__value"), stats.listings);
+  animateStat($stats.find(".listivo-attributes-v3__attribute:nth-child(2) .listivo-attributes-v3__value"), stats.users);
+  animateStat($stats.find(".listivo-attributes-v3__attribute:nth-child(3) .listivo-attributes-v3__value"), stats.businesses);
+  animateStat($stats.find(".listivo-attributes-v3__attribute:nth-child(4) .listivo-attributes-v3__value"), stats.categories);
 
   var $stats2 = $(".listivo-stats-v2");
+  animateStat($stats2.find(".listivo-stats-v2__item:nth-child(1) .listivo-stats-v2__value"), stats.listings, '+');
+  animateStat($stats2.find(".listivo-stats-v2__item:nth-child(2) .listivo-stats-v2__value"), stats.users, '+');
+  animateStat($stats2.find(".listivo-stats-v2__item:nth-child(3) .listivo-stats-v2__value"), stats.businesses, '+');
+  animateStat($stats2.find(".listivo-stats-v2__item:nth-child(4) .listivo-stats-v2__value"), stats.categories, '+');
 
-  $stats2.find(".listivo-stats-v2__item:nth-child(1) .listivo-stats-v2__value")
-        .contents().first().replaceWith(stats.listings + '+');
-
-  $stats2.find(".listivo-stats-v2__item:nth-child(2) .listivo-stats-v2__value")
-        .contents().first().replaceWith(stats.users + '+');
-
-  $stats2.find(".listivo-stats-v2__item:nth-child(3) .listivo-stats-v2__value")
-        .contents().first().replaceWith(stats.businesses + '+');
-
-  $stats2.find(".listivo-stats-v2__item:nth-child(4) .listivo-stats-v2__value")
-        .contents().first().replaceWith(stats.categories + '+');
-        
   var $stats3 = $(".listivo-stats-v1");
-
-  $stats3.find(".listivo-stats-v1__item:nth-child(1) .listivo-stats-v1__value")
-        .contents().first().replaceWith(stats.listings);
-
-  $stats3.find(".listivo-stats-v1__item:nth-child(2) .listivo-stats-v1__value")
-        .contents().first().replaceWith(stats.users);
-
-  $stats3.find(".listivo-stats-v1__item:nth-child(3) .listivo-stats-v1__value")
-        .contents().first().replaceWith(stats.businesses);
-
-  $stats3.find(".listivo-stats-v1__item:nth-child(4) .listivo-stats-v1__value")
-        .contents().first().replaceWith(stats.categories);
+  animateStat($stats3.find(".listivo-stats-v1__item:nth-child(1) .listivo-stats-v1__value"), stats.listings);
+  animateStat($stats3.find(".listivo-stats-v1__item:nth-child(2) .listivo-stats-v1__value"), stats.users);
+  animateStat($stats3.find(".listivo-stats-v1__item:nth-child(3) .listivo-stats-v1__value"), stats.businesses);
+  animateStat($stats3.find(".listivo-stats-v1__item:nth-child(4) .listivo-stats-v1__value"), stats.categories);
 
   setTimeout(function() {
       // Select both carousel types

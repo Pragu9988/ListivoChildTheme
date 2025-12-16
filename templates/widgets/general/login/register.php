@@ -110,6 +110,7 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
         <form @submit.prevent="registerForm.onRegister">
             <div
                     class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon"
+                    style="display: none !important;"
                     :class="{
                         'listivo-input-v2--error': registerForm.showErrors && (!registerForm.errors.name.required || !registerForm.errors.name.minLength)
                     }"
@@ -176,7 +177,7 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
 
                 <input
                         name="email"
-                        @input="registerForm.setMail($event.target.value)"
+                        @input="registerForm.setMail($event.target.value); registerForm.setName($event.target.value)"
                         :value="registerForm.email"
                         type="text"
                         placeholder="<?php echo esc_attr(tdf_string('email')); ?>*"
@@ -965,7 +966,7 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
 
             <div class="listivo-login-form__footer" style="text-align: center; margin-top: 15px;">
                 <?php echo esc_html__("Already have an account?", 'listivo'); ?>
-                <a href="<?php echo esc_url(wp_login_url()); ?>" class="listivo-login-form__login-link" style="font-weight: 600;">
+                <a href="<?php echo esc_url(tdf_settings()->getLoginPageUrl()); ?>" class="listivo-login-form__login-link" style="font-weight: 600;">
                     <?php echo esc_html__('Login', 'listivo'); ?>
                 </a>
             </div>

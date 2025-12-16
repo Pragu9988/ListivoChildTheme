@@ -33,13 +33,22 @@ function custom_buyer_registration_form() {
     <form method="post" class="buyer-register-form">
         
         <!-- Username Field -->
-        <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+        <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon" style="display: none !important;">
             <div class="listivo-input-v2__icon listivo-icon-v2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
                     <path d="M7.27273 0C4.46875 0 2.18182 2.28693 2.18182 5.09091C2.18182 6.84375 3.0767 8.40057 4.43182 9.31818C1.83807 10.4318 0 13.0057 0 16H1.45455C1.45455 13.8977 2.56534 12.0682 4.22727 11.0455C4.71591 12.2443 5.90625 13.0909 7.27273 13.0909C8.6392 13.0909 9.82955 12.2443 10.3182 11.0455C11.9801 12.0682 13.0909 13.8977 13.0909 16H14.5455C14.5455 13.0057 12.7074 10.4318 10.1136 9.31818C11.4688 8.40057 12.3636 6.84375 12.3636 5.09091C12.3636 2.28693 10.0767 0 7.27273 0ZM7.27273 1.45455C9.28977 1.45455 10.9091 3.07386 10.9091 5.09091C10.9091 7.10796 9.28977 8.72727 7.27273 8.72727C5.25568 8.72727 3.63636 7.10796 3.63636 5.09091C3.63636 3.07386 5.25568 1.45455 7.27273 1.45455ZM7.27273 10.1818C7.86932 10.1818 8.4375 10.267 8.97727 10.4318C8.72443 11.1335 8.06534 11.6364 7.27273 11.6364C6.48011 11.6364 5.82102 11.1335 5.56818 10.4318C6.10796 10.267 6.67614 10.1818 7.27273 10.1818Z" fill="#FDFDFE"/>
                 </svg>
             </div>
             <input type="text" name="buyer_username" id="buyer_username" required placeholder="' . esc_attr__('Username', 'listivo') . '*" value="' . (isset($_POST['buyer_username']) ? esc_attr($_POST['buyer_username']) : '') . '" />
+        </div>
+        <!-- Email Field -->
+        <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+            <div class="listivo-input-v2__icon listivo-icon-v2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 8C0 3.58883 3.58883 0 8 0C12.4112 0 16 3.58883 16 8C16 12.4112 12.4112 16 8 16C3.58883 16 0 12.4112 0 8ZM14.7992 8C14.7992 4.23736 11.7619 1.2 7.99922 1.2C4.23657 1.2 1.19922 4.23736 1.19922 8C1.19922 11.7626 4.23657 14.8 7.99922 14.8C11.7619 14.8 14.7992 11.7626 14.7992 8ZM8.00039 2.4C4.91457 2.4 2.40039 4.91418 2.40039 8C2.40039 11.0858 4.91457 13.6 8.00039 13.6C8.69124 13.6 9.3557 13.4746 9.96836 13.2445C10.1715 13.1709 10.3194 12.9938 10.3556 12.7808C10.3918 12.5678 10.3106 12.3518 10.1432 12.2153C9.97576 12.0788 9.74784 12.0428 9.54648 12.1211C9.06635 12.3014 8.54634 12.4 8.00039 12.4C5.56301 12.4 3.60039 10.4374 3.60039 8C3.60039 5.56262 5.56301 3.6 8.00039 3.6C10.4378 3.6 12.4004 5.56262 12.4004 8V8.6C12.4004 9.15929 11.9597 9.6 11.4004 9.6C10.8411 9.6 10.4004 9.15929 10.4004 8.6V5.8C10.4028 5.49492 10.1759 5.23659 9.87308 5.19961C9.57025 5.16263 9.28786 5.35877 9.2168 5.65547C8.81185 5.36971 8.32747 5.2 7.80039 5.2C6.33967 5.2 5.20039 6.49099 5.20039 8C5.20039 9.50901 6.33967 10.8 7.80039 10.8C8.54069 10.8 9.1973 10.4673 9.66602 9.94375C10.0698 10.4624 10.6977 10.8 11.4004 10.8C12.6083 10.8 13.6004 9.80791 13.6004 8.6V8C13.6004 4.91418 11.0862 2.4 8.00039 2.4ZM9.20039 8C9.20039 7.08261 8.54527 6.4 7.80039 6.4C7.05552 6.4 6.40039 7.08261 6.40039 8C6.40039 8.91739 7.05552 9.6 7.80039 9.6C8.54527 9.6 9.20039 8.91739 9.20039 8Z" fill="#FDFDFE"/>
+                </svg>
+            </div>
+            <input type="email" name="buyer_email" id="buyer_email" required placeholder="' . esc_attr__('Email Address', 'listivo') . '*" value="' . (isset($_POST['buyer_email']) ? esc_attr($_POST['buyer_email']) : '') . '" oninput="document.getElementById(\'buyer_username\').value = this.value" />
         </div>
 
         <!-- First Name Field (Optional) -->
@@ -56,16 +65,6 @@ function custom_buyer_registration_form() {
                 <i class="far fa-id-card"></i>
             </div>
             <input type="text" name="buyer_last_name" id="buyer_last_name" placeholder="' . esc_attr__('Last Name', 'listivo') . '" value="' . (isset($_POST['buyer_last_name']) ? esc_attr($_POST['buyer_last_name']) : '') . '" />
-        </div>
-
-        <!-- Email Field -->
-        <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
-            <div class="listivo-input-v2__icon listivo-icon-v2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 8C0 3.58883 3.58883 0 8 0C12.4112 0 16 3.58883 16 8C16 12.4112 12.4112 16 8 16C3.58883 16 0 12.4112 0 8ZM14.7992 8C14.7992 4.23736 11.7619 1.2 7.99922 1.2C4.23657 1.2 1.19922 4.23736 1.19922 8C1.19922 11.7626 4.23657 14.8 7.99922 14.8C11.7619 14.8 14.7992 11.7626 14.7992 8ZM8.00039 2.4C4.91457 2.4 2.40039 4.91418 2.40039 8C2.40039 11.0858 4.91457 13.6 8.00039 13.6C8.69124 13.6 9.3557 13.4746 9.96836 13.2445C10.1715 13.1709 10.3194 12.9938 10.3556 12.7808C10.3918 12.5678 10.3106 12.3518 10.1432 12.2153C9.97576 12.0788 9.74784 12.0428 9.54648 12.1211C9.06635 12.3014 8.54634 12.4 8.00039 12.4C5.56301 12.4 3.60039 10.4374 3.60039 8C3.60039 5.56262 5.56301 3.6 8.00039 3.6C10.4378 3.6 12.4004 5.56262 12.4004 8V8.6C12.4004 9.15929 11.9597 9.6 11.4004 9.6C10.8411 9.6 10.4004 9.15929 10.4004 8.6V5.8C10.4028 5.49492 10.1759 5.23659 9.87308 5.19961C9.57025 5.16263 9.28786 5.35877 9.2168 5.65547C8.81185 5.36971 8.32747 5.2 7.80039 5.2C6.33967 5.2 5.20039 6.49099 5.20039 8C5.20039 9.50901 6.33967 10.8 7.80039 10.8C8.54069 10.8 9.1973 10.4673 9.66602 9.94375C10.0698 10.4624 10.6977 10.8 11.4004 10.8C12.6083 10.8 13.6004 9.80791 13.6004 8.6V8C13.6004 4.91418 11.0862 2.4 8.00039 2.4ZM9.20039 8C9.20039 7.08261 8.54527 6.4 7.80039 6.4C7.05552 6.4 6.40039 7.08261 6.40039 8C6.40039 8.91739 7.05552 9.6 7.80039 9.6C8.54527 9.6 9.20039 8.91739 9.20039 8Z" fill="#FDFDFE"/>
-                </svg>
-            </div>
-            <input type="email" name="buyer_email" id="buyer_email" required placeholder="' . esc_attr__('Email Address', 'listivo') . '*" value="' . (isset($_POST['buyer_email']) ? esc_attr($_POST['buyer_email']) : '') . '" />
         </div>
 
         <!-- Phone Number Field (Required) -->
@@ -142,11 +141,10 @@ function custom_buyer_registration_form() {
         
         <div class="listivo-login-form__footer" style="text-align: center; margin-top: 15px;">
             ' . esc_html__("Already have an account?", "listivo") . '
-            <a href="' . esc_url(wp_login_url()) . '" class="listivo-login-form__login-link" style="font-weight: 600;">
+            <a href="' . esc_url(tdf_settings()->getLoginPageUrlWithoutTab()) . '" class="listivo-login-form__login-link" style="font-weight: 600;">
                 ' . esc_html__("Login", "listivo") . '
             </a>
         </div>
-        
     </form>
     </div>
     </div>

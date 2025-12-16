@@ -342,9 +342,17 @@ Text Domain: listivo
     max-width: 440px;
 }
 
+.listivo-menu-v2__register-wrapper {
+    display: none !important;
+}
+
 @media (min-width: 1024px) {
     .listivo-testimonials-v2__list {
         max-width: 840px;
+    }
+
+    .listivo-menu-v2__register-wrapper {
+        display: flex !important;
     }
 }
 
@@ -354,4 +362,16 @@ Text Domain: listivo
 
 .listivo-stats-v1 {
     border-width: 0;
+}
+
+.listivo-login-form__register-link, .listivo-login-form__login-link {
+    color: var(--e-global-color-lprimary1);
+}
+
+.listivo-menu-mobile-v2__register-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-right: 15px;
+    align-items: center;
 }

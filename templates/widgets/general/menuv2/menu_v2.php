@@ -20,47 +20,71 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                     :class="{'listivo-menu-mobile-v2--open': props.show}"
             >
                 <div class="listivo-menu-mobile-v2__top">
-                    <div class="listivo-menu-mobile-v2__button">
-                        <?php if ($lstCurrentWidget->getCtaType() === 'button' && tdf_settings()->showMenuCtaButton()) : ?>
-                            <a
-                                <?php if ($lstCurrentWidget->getCtaButtonStyle() === 'primary_1') : ?>
-                                    class="listivo-button listivo-button--primary-1"
-                                <?php else : ?>
-                                    class="listivo-button listivo-button--primary-2"
-                                <?php endif; ?>
-                                    href="<?php echo esc_url($lstCurrentWidget->getCtaButtonUrl()); ?>"
-                            >
-                                <span>
-                                    <?php if (!empty(tdf_settings()->getCustomMenuCtaText())) : ?>
-                                        <?php echo esc_html(tdf_settings()->getCustomMenuCtaText()); ?>
+                    <?php if (!$lstUser): ?>
+                        <div class="listivo-menu-mobile-v2__button">
+                            <?php if ($lstCurrentWidget->getCtaType() === 'button' && tdf_settings()->showMenuCtaButton()) : ?>
+                                <a
+                                    <?php if ($lstCurrentWidget->getCtaButtonStyle() === 'primary_1') : ?>
+                                        class="listivo-button listivo-button--primary-1"
                                     <?php else : ?>
-                                        <?php echo esc_html(tdf_string('add_listing')); ?>
+                                        class="listivo-button listivo-button--primary-2"
                                     <?php endif; ?>
+                                        href="<?php echo esc_url($lstCurrentWidget->getCtaButtonUrl()); ?>"
+                                >
+                                    <span>
+                                        <?php if (!empty(tdf_settings()->getCustomMenuCtaText())) : ?>
+                                            <?php echo esc_html(tdf_settings()->getCustomMenuCtaText()); ?>
+                                        <?php else : ?>
+                                            <?php echo esc_html(tdf_string('add_listing')); ?>
+                                        <?php endif; ?>
 
-                                    <?php if ($lstCurrentWidget->hasCtaButtonIcon()) : ?>
-                                        <i class="<?php echo esc_attr($lstCurrentWidget->getCtaButtonIcon()); ?>"></i>
-                                    <?php else : ?>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                             viewBox="0 0 12 12" fill="none">
-                                            <path d="M5.00488 11.525V7.075H0.854883V5.125H5.00488V0.65H7.00488V5.125H11.1549V7.075H7.00488V11.525H5.00488Z"
-                                                  fill="#FDFDFE"/>
-                                        </svg>
-                                    <?php endif; ?>
-                                </span>
-                            </a>
-                        <?php endif; ?>
-                    </div>
+                                        <?php if ($lstCurrentWidget->hasCtaButtonIcon()) : ?>
+                                            <i class="<?php echo esc_attr($lstCurrentWidget->getCtaButtonIcon()); ?>"></i>
+                                        <?php else : ?>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 12 12" fill="none">
+                                                <path d="M5.00488 11.525V7.075H0.854883V5.125H5.00488V0.65H7.00488V5.125H11.1549V7.075H7.00488V11.525H5.00488Z"
+                                                    fill="#FDFDFE"/>
+                                            </svg>
+                                        <?php endif; ?>
+                                    </span>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    <?php else: ?>
+                       <div class="listivo-menu-v2__left">
+                            <?php if ($lstCurrentWidget->hasLogo()) :
+                                $lstLogo = $lstCurrentWidget->getLogo();
+                                ?>
+                                <a
+                                        class="listivo-menu-v2__logo"
+                                        href="<?php echo esc_url(get_site_url()); ?>"
+                                        title="<?php echo esc_attr(get_bloginfo('name')); ?>"
+                                >
+                                    <img
+                                            src="<?php echo esc_url($lstCurrentWidget->getLogoUrl()); ?>"
+                                            alt="<?php echo esc_attr(get_bloginfo('name')); ?>"
+                                            style="aspect-ratio: <?php echo esc_attr($lstLogo->getWidth()); ?> / <?php echo esc_attr($lstLogo->getHeight()); ?>"
+                                    >
+                                </a>
 
-                    <?php if (!$lstUser && tdf_settings()->userRegistrationOpen()) : ?>
-                        <div class="listivo-menu-mobile-v2__register-links" style="display: flex; gap: 15px; margin-right: 15px; align-items: center;">
-                            <a href="<?php echo esc_url(home_url('/buyer-register'))?>" style="display: flex; align-items: center; gap: 5px; color: #2A3946; font-weight: 600; text-decoration: none; font-size: 13px;">
-                                <i class="far fa-user"></i>
-                                <?php esc_html_e('Buyer', 'listivo'); ?>
-                            </a>
-                            <a href="<?php echo esc_url(tdf_settings()->getRegisterPageUrl()); ?>" style="display: flex; align-items: center; gap: 5px; color: #2A3946; font-weight: 600; text-decoration: none; font-size: 13px;">
-                                <i class="far fa-building"></i>
-                                <?php esc_html_e('Seller', 'listivo'); ?>
-                            </a>
+                                <a
+                                        class="listivo-menu-v2__logo listivo-menu-v2__logo--sticky"
+                                        href="<?php echo esc_url(get_site_url()); ?>"
+                                        title="<?php echo esc_attr(get_bloginfo('name')); ?>"
+                                >
+                                    <img
+                                            src="<?php echo esc_url($lstCurrentWidget->getStickyLogoUrl()); ?>"
+                                            alt="<?php echo esc_attr(get_bloginfo('name')); ?>"
+                                    >
+                                </a>
+                            <?php endif; ?>
+
+                            <?php
+                            if ($lstMenu) :
+                                $lstMenu->display('', $lstCurrentWidget->getMenuArgs());
+                            endif;
+                            ?>
                         </div>
                     <?php endif; ?>
 
@@ -76,6 +100,19 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                         </svg>
                     </div>
                 </div>
+
+                <?php if (!$lstUser && tdf_settings()->userRegistrationOpen()) : ?>
+                    <div class="listivo-menu-mobile-v2__register-links listivo-menu-mobile-v2__item">
+                        <a href="<?php echo esc_url(home_url('/buyer-register'))?>">
+                            <?php esc_html_e('Register As Buyer', 'listivo'); ?>
+                        </a>
+                    </div>
+                    <div class="listivo-menu-mobile-v2__register-links listivo-menu-mobile-v2__item">
+                        <a href="<?php echo esc_url(home_url('/seller-register'))?>">
+                            <?php esc_html_e('Register As Seller', 'listivo'); ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
 
                 <?php if ($lstMenu) : ?>
                     <?php $lstMenu->display('listivo-menu-mobile-v2', $lstCurrentWidget->getMenuMobileArgs()); ?>
@@ -361,7 +398,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                 <div class="listivo-menu-v2__user-menu">
                                     <div class="listivo-user-dropdown">
                                         <div class="listivo-user-dropdown__list">
-                                            <?php if ($lstUser->canCreateModels() || !is_tdf_buyer()) : ?>
+                                            <?php if ($lstUser->canCreateModels() && !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_CREATE)); ?>"
@@ -394,7 +431,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?>
 
-                                            <!-- <?php if (tdf_current_user()->isModerator() || !is_tdf_buyer()) : ?>
+                                            <!-- <?php if (tdf_current_user()->isModerator() && !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_MODERATION)); ?>"
@@ -433,7 +470,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?> -->
 
-                                            <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && tdf_current_user()->canSeeOrders() || !is_tdf_buyer()) : ?>
+                                            <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && tdf_current_user()->canSeeOrders() && !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_ORDERS)); ?>"
@@ -454,7 +491,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?> -->
 
-                                            <?php if ($lstUser->canCreateModels() || !is_tdf_buyer()) : ?>
+                                            <?php if ($lstUser->canCreateModels() && !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_LIST)); ?>"
@@ -582,7 +619,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?>
 
-                                            <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && $lstUser->canCreateModels() || !is_tdf_buyer()) : ?>
+                                            <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && $lstUser->canCreateModels() && !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_MY_ORDERS)); ?>"
