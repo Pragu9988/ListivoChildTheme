@@ -51,6 +51,19 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                         <?php endif; ?>
                     </div>
 
+                    <?php if (!$lstUser && tdf_settings()->userRegistrationOpen()) : ?>
+                        <div class="listivo-menu-mobile-v2__register-links" style="display: flex; gap: 15px; margin-right: 15px; align-items: center;">
+                            <a href="<?php echo esc_url(home_url('/buyer-register'))?>" style="display: flex; align-items: center; gap: 5px; color: #2A3946; font-weight: 600; text-decoration: none; font-size: 13px;">
+                                <i class="far fa-user"></i>
+                                <?php esc_html_e('Buyer', 'listivo'); ?>
+                            </a>
+                            <a href="<?php echo esc_url(tdf_settings()->getRegisterPageUrl()); ?>" style="display: flex; align-items: center; gap: 5px; color: #2A3946; font-weight: 600; text-decoration: none; font-size: 13px;">
+                                <i class="far fa-building"></i>
+                                <?php esc_html_e('Seller', 'listivo'); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
                     <div
                             class="listivo-menu-mobile-v2__close"
                             @click.prevent="props.onShow"
@@ -761,7 +774,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                         <i class="far fa-building"></i>
                                                     </div>
                                                     <div class="listivo-user-dropdown__label">
-                                                        <?php esc_html_e('As Business Broker', 'listivo'); ?>
+                                                        <?php esc_html_e('As Seller', 'listivo'); ?>
                                                     </div>
                                                 </a>
                                             </div>
@@ -772,7 +785,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                         </div>
                     <?php endif; ?>
 
-                    <?php if (tdf_settings()->showMenuCtaButton()) : ?>
+                    <?php if (tdf_settings()->showMenuCtaButton() && !$lstUser) : ?>
                         <?php if ($lstCurrentWidget->getCtaType() === 'button') : ?>
                             <div class="listivo-menu-v2__button">
                                 <a

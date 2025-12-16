@@ -140,6 +140,13 @@ function custom_buyer_registration_form() {
             </button>
         </div>
         
+        <div class="listivo-login-form__footer" style="text-align: center; margin-top: 15px;">
+            ' . esc_html__("Already have an account?", "listivo") . '
+            <a href="' . esc_url(wp_login_url()) . '" class="listivo-login-form__login-link" style="font-weight: 600;">
+                ' . esc_html__("Login", "listivo") . '
+            </a>
+        </div>
+        
     </form>
     </div>
     </div>

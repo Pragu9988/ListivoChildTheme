@@ -43,7 +43,7 @@ add_action('wp_enqueue_scripts', function () {
     $agents_count = count(
         get_users([
             'meta_key'     => 'account_type',
-            'meta_value'   => 'private',
+            'meta_value'   => 'regular',
             'meta_compare' => '!=',
         ])
     );
@@ -242,6 +242,52 @@ function featured_user_toggle_notice() {
         <?php
     }
 }
+
+// Add "Account Type" column to users table
+add_filter('manage_users_columns', 'add_account_type_column');
+
+function add_account_type_column($columns) {
+    // Insert after Username or Name if possible, or just append
+    $new_columns = [];
+    foreach ($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        if ($key === 'name') {
+            $new_columns['account_type'] = __('Account Type', 'listivo');
+        }
+    }
+    // Fallback if 'name' key not found
+    if (!isset($new_columns['account_type'])) {
+        $new_columns['account_type'] = __('Account Type', 'listivo');
+    }
+    return $new_columns;
+}
+
+// Display Account Type content
+add_filter('manage_users_custom_column', 'show_account_type_column_content', 10, 3);
+
+function show_account_type_column_content($value, $column_name, $user_id) {
+    if ($column_name !== 'account_type') {
+        return $value;
+    }
+
+    $user = get_userdata($user_id);
+
+    // Safety check
+    if (!$user || !in_array('listivo_user', (array) $user->roles, true)) {
+        return '<span style="color: #ddd;">—</span>';
+    }
+
+    $account_type = get_user_meta($user_id, 'account_type', true);
+
+    if ($account_type === 'business') {
+        return __('Business Broker', 'listivo');
+    } elseif ($account_type === 'regular') {
+        return __('Business Owner', 'listivo');
+    }
+
+    return '<span style="color: #ddd;">—</span>';
+}
+
 
 // ============================================
 // CUSTOM REGISTRATION FIELDS

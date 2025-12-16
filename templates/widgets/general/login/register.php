@@ -644,76 +644,18 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
                         </div>
                     </template>
                 <?php endif; ?>
-
-                <?php if (tdf_settings()->isCompanyInformationEnabled() && (tdf_settings()->requireCompanyInformation() || tdf_settings()->showCompanyInformationFieldOnRegisterForm())) : ?>
-                    <template>
-                        <div v-if="registerForm.accountType === 'business'" class="listivo-login-form__field">
-                            <div
-                                    class="listivo-textarea"
-                                <?php if (tdf_settings()->requireCompanyInformation()) : ?>
-                                    :class="{
-                                        'listivo-textarea--error': registerForm.showErrors && (registerForm.errors.companyInformation && !registerForm.errors.companyInformation.required)
-                                    }"
-                                <?php endif; ?>
-                            >
-                                <textarea
-                                        @input="registerForm.setCompanyInformation($event.target.value)"
-                                        :value="registerForm.companyInformation"
-                                        cols="30"
-                                        rows="10"
-                                    <?php if (tdf_settings()->requireCompanyInformation()) : ?>
-                                        placeholder="<?php echo esc_attr(tdf_string('company_information')); ?>*"
-                                    <?php else : ?>
-                                        placeholder="<?php echo esc_attr(tdf_string('company_information')); ?>"
-                                    <?php endif; ?>
-                                ></textarea>
-
-                                <?php if (tdf_settings()->requireCompanyInformation()) : ?>
-                                    <div
-                                            v-if="registerForm.showErrors && (registerForm.errors.companyInformation && !registerForm.errors.companyInformation.required)"
-                                            class="listivo-textarea__error listivo-field-error"
-                                    >
-                                        <div class="listivo-field-error__icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="9" viewBox="0 0 10 9"
-                                                 fill="none">
-                                                <path
-                                                        d="M0.105217 7.80234L4.38783 0.354178C4.51386 0.135013 4.74732 0 4.99999 0C5.25265 0 5.48611 0.135013 5.61214 0.354178L9.89475 7.80234C10.0269 8.03213 10.0351 8.31277 9.91661 8.54991L9.9164 8.55032C9.78241 8.8181 9.50871 8.98722 9.20927 8.98722H0.790697C0.491259 8.98722 0.217558 8.8181 0.0837706 8.55032L0.0835662 8.54991C-0.035106 8.31277 -0.0269357 8.03213 0.105217 7.80234Z"
-                                                        fill="#FDFDFE"/>
-                                                <path
-                                                        d="M5.40848 7.55742C5.40848 7.78313 5.22567 7.96593 4.99997 7.96593C4.77427 7.96593 4.59146 7.78313 4.59146 7.55742C4.59146 7.33172 4.77427 7.14891 4.99997 7.14891C5.22567 7.14891 5.40848 7.33172 5.40848 7.55742ZM4.99997 2.85956C4.66152 2.85956 4.38721 3.13387 4.38721 3.47232L4.5643 6.12846C4.57962 6.35783 4.77019 6.53615 4.99997 6.53615C5.22976 6.53615 5.42033 6.35783 5.43565 6.12846L5.61274 3.47232C5.61274 3.13387 5.33842 2.85956 4.99997 2.85956Z"
-                                                        fill="#F09965"/>
-                                            </svg>
-                                        </div>
-
-                                        <template v-if="registerForm.errors.companyInformation && !registerForm.errors.companyInformation.required">
-                                            <?php echo esc_html(tdf_string('field_is_required')); ?>
-                                        </template>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </template>
-                <?php endif; ?>
             <?php endif; ?>
 
             <!-- Custom Fields for Business Account -->
             <template>
                 <div v-if="registerForm.accountType === 'business'">
                     
-                    <!-- Agency Name -->
+                    <!-- Company Name -->
                     <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
                         <div class="listivo-input-v2__icon listivo-icon-v2">
                             <i class="far fa-building"></i>
                         </div>
-                        <input type="text" name="agency_name" class="listivo-extra-field" placeholder="Agency Name *" required>
-                    </div>
-
-                    <!-- Director Name -->
-                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
-                        <div class="listivo-input-v2__icon listivo-icon-v2">
-                            <i class="far fa-user"></i>
-                        </div>
-                        <input type="text" name="director_name" class="listivo-extra-field" placeholder="Director Name *" required>
+                        <input type="text" name="agency_name" class="listivo-extra-field" placeholder="Company Name *" required>
                     </div>
 
                     <!-- Business Trading Name -->
@@ -722,6 +664,14 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
                             <i class="far fa-id-badge"></i>
                         </div>
                         <input type="text" name="business_trading_name" class="listivo-extra-field" placeholder="Business Trading Name *" required>
+                    </div>
+
+                    <!-- Director Name -->
+                    <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
+                        <div class="listivo-input-v2__icon listivo-icon-v2">
+                            <i class="far fa-user"></i>
+                        </div>
+                        <input type="text" name="director_name" class="listivo-extra-field" placeholder="Director Name *" required>
                     </div>
 
                     <!-- Address -->
@@ -742,6 +692,56 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
 
                 </div>
             </template>
+
+            <?php if (tdf_settings()->isCompanyInformationEnabled() && (tdf_settings()->requireCompanyInformation() || tdf_settings()->showCompanyInformationFieldOnRegisterForm())) : ?>
+                <template>
+                    <div v-if="registerForm.accountType === 'business'" class="listivo-login-form__field">
+                        <div
+                                class="listivo-textarea"
+                            <?php if (tdf_settings()->requireCompanyInformation()) : ?>
+                                :class="{
+                                    'listivo-textarea--error': registerForm.showErrors && (registerForm.errors.companyInformation && !registerForm.errors.companyInformation.required)
+                                }"
+                            <?php endif; ?>
+                        >
+                            <textarea
+                                    @input="registerForm.setCompanyInformation($event.target.value)"
+                                    :value="registerForm.companyInformation"
+                                    cols="30"
+                                    rows="10"
+                                <?php if (tdf_settings()->requireCompanyInformation()) : ?>
+                                    placeholder="More information...*"
+                                <?php else : ?>
+                                    placeholder="More information..."
+                                <?php endif; ?>
+                            ></textarea>
+
+                            <?php if (tdf_settings()->requireCompanyInformation()) : ?>
+                                <div
+                                        v-if="registerForm.showErrors && (registerForm.errors.companyInformation && !registerForm.errors.companyInformation.required)"
+                                        class="listivo-textarea__error listivo-field-error"
+                                >
+                                    <div class="listivo-field-error__icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="9" viewBox="0 0 10 9"
+                                                fill="none">
+                                            <path
+                                                    d="M0.105217 7.80234L4.38783 0.354178C4.51386 0.135013 4.74732 0 4.99999 0C5.25265 0 5.48611 0.135013 5.61214 0.354178L9.89475 7.80234C10.0269 8.03213 10.0351 8.31277 9.91661 8.54991L9.9164 8.55032C9.78241 8.8181 9.50871 8.98722 9.20927 8.98722H0.790697C0.491259 8.98722 0.217558 8.8181 0.0837706 8.55032L0.0835662 8.54991C-0.035106 8.31277 -0.0269357 8.03213 0.105217 7.80234Z"
+                                                    fill="#FDFDFE"/>
+                                            <path
+                                                    d="M5.40848 7.55742C5.40848 7.78313 5.22567 7.96593 4.99997 7.96593C4.77427 7.96593 4.59146 7.78313 4.59146 7.55742C4.59146 7.33172 4.77427 7.14891 4.99997 7.14891C5.22567 7.14891 5.40848 7.33172 5.40848 7.55742ZM4.99997 2.85956C4.66152 2.85956 4.38721 3.13387 4.38721 3.47232L4.5643 6.12846C4.57962 6.35783 4.77019 6.53615 4.99997 6.53615C5.22976 6.53615 5.42033 6.35783 5.43565 6.12846L5.61274 3.47232C5.61274 3.13387 5.33842 2.85956 4.99997 2.85956Z"
+                                                    fill="#F09965"/>
+                                        </svg>
+                                    </div>
+
+                                    <template v-if="registerForm.errors.companyInformation && !registerForm.errors.companyInformation.required">
+                                        <?php echo esc_html(tdf_string('field_is_required')); ?>
+                                    </template>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </template>
+            <?php endif; ?>
 
             <?php if (tdf_settings()->isFullNameEnabledForPrivateAccount() && (tdf_settings()->isFullNameRequiredForPrivateAccount() || tdf_settings()->showFullNameFieldOnRegisterFormForPrivateAccount())) : ?>
                 <template>
@@ -961,6 +961,13 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
                         </svg>
                     </template>
                 </button>
+            </div>
+
+            <div class="listivo-login-form__footer" style="text-align: center; margin-top: 15px;">
+                <?php echo esc_html__("Already have an account?", 'listivo'); ?>
+                <a href="<?php echo esc_url(wp_login_url()); ?>" class="listivo-login-form__login-link" style="font-weight: 600;">
+                    <?php echo esc_html__('Login', 'listivo'); ?>
+                </a>
             </div>
         </form>
     </div>

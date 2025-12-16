@@ -118,7 +118,20 @@ jQuery(function ($) {
 
   $stats2.find(".listivo-stats-v2__item:nth-child(4) .listivo-stats-v2__value")
         .contents().first().replaceWith(stats.categories + '+');
+        
+  var $stats3 = $(".listivo-stats-v1");
 
+  $stats3.find(".listivo-stats-v1__item:nth-child(1) .listivo-stats-v1__value")
+        .contents().first().replaceWith(stats.listings);
+
+  $stats3.find(".listivo-stats-v1__item:nth-child(2) .listivo-stats-v1__value")
+        .contents().first().replaceWith(stats.users);
+
+  $stats3.find(".listivo-stats-v1__item:nth-child(3) .listivo-stats-v1__value")
+        .contents().first().replaceWith(stats.businesses);
+
+  $stats3.find(".listivo-stats-v1__item:nth-child(4) .listivo-stats-v1__value")
+        .contents().first().replaceWith(stats.categories);
 
   setTimeout(function() {
       // Select both carousel types

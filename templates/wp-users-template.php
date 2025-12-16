@@ -13,12 +13,17 @@ $args = [
     'offset'  => ($page - 1) * $per_page,
     'role__in' => ['listivo_user'], // customize
     'meta_query' => [
+        'relation' => 'OR',
         [
-            'relation' => 'AND',
-            'key'     => 'account_type', // Example meta key
-            'compare' => '=',
-            'value'   => 'business'
-        ]
+            'key'     => 'account_type',
+            'value'   => 'business',
+            'compare' => '='
+        ],
+        // [
+        //     'key'     => 'account_type',
+        //     'value'   => 'regular',
+        //     'compare' => '='
+        // ],
     ],
 ];
 
@@ -38,13 +43,13 @@ if ($location) {
 }
 
 // User Type Filter
-if ($user_type) {
-    $args['meta_query'][] = [
-        'key'     => 'account_type', // Assuming meta key is 'user_type'
-        'value'   => $user_type,
-        'compare' => '='
-    ];
-}
+// if ($user_type) {
+//     $args['meta_query'][] = [
+//         'key'     => 'account_type', // Assuming meta key is 'user_type'
+//         'value'   => $user_type,
+//         'compare' => '='
+//     ];
+// }
 
 // Order By Logic
 switch ($orderby) {
@@ -272,7 +277,7 @@ if ($search || $location || $user_type) {
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: stretch;
         /* Align top */
         padding: 0;
         overflow: hidden;
@@ -282,7 +287,7 @@ if ($search || $location || $user_type) {
     .listivo-user-profiles.list-view .listivo-single-user-profile__image {
         width: 250px;
         min-width: 250px;
-        height: 100%;
+        height: auto;
         margin: 0;
         border-radius: 0;
     }
@@ -301,6 +306,7 @@ if ($search || $location || $user_type) {
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+        border: none !important;
     }
 
     .listivo-user-profiles.list-view .listivo-single-user-profile__label {
@@ -426,17 +432,22 @@ if ($search || $location || $user_type) {
          border: 2px solid var(--e-global-color-lprimary2);
     }
 
+    .listivo-user-profiles .listivo-single-user-profile {
+        border: 1px solid var(--e-global-color-lcolor3);
+        border-radius: 8px;
+    }
+
     /* Meta Social Icons */
     .listivo-user-card-meta-socials {
         margin: 0;
-        gap: 8px;
+        gap: 10px;
         display: flex;
         flex-wrap: wrap;
     }
 
     .listivo-user-card-meta-social-link {
-        width: 24px;
-        height: 24px;
+        width: 36px;
+        height: 36px;
         font-size: 14px;
         background: transparent;
         display: flex;
@@ -451,8 +462,8 @@ if ($search || $location || $user_type) {
     }
 
     .listivo-user-card-meta-social-link svg {
-        width: 14px; 
-        height: 14px;
+        width: 18px; 
+        height: 18px;
         fill: currentColor;
     }
 </style>
@@ -477,14 +488,14 @@ if ($search || $location || $user_type) {
                         </div>
 
                         <!-- User Type Filter -->
-                        <div class="listivo-users-filter-item">
+                        <!-- <div class="listivo-users-filter-item">
                             <label>User Type</label>
                             <select name="user_type">
                                 <option value="">All Types</option>
                                 <option value="business" <?php selected($user_type, 'business'); ?>>Business Brokers</option>
-                                <!-- <option value="private" <?php selected($user_type, 'private'); ?>>Agent</option> -->
+                                <option value="regular" <?php selected($user_type, 'regular'); ?>>Private Sellers</option>
                             </select>
-                        </div>
+                        </div> -->
 
                         <!-- Order By -->
                         <div class="listivo-users-filter-item">
@@ -579,8 +590,10 @@ if ($search || $location || $user_type) {
                         ]);
                     } else {
                         // fallback avatar
-                        echo get_avatar($user_id, 200);
-                    }
+                    echo '<img src="' . esc_url( get_stylesheet_directory_uri() . '/assets/user.png' ) . '" 
+                        alt="Default Avatar" 
+                        style="display:block; padding: 2rem;">';
+                    }   
                     ?>
                 </div>
 
@@ -596,7 +609,7 @@ if ($search || $location || $user_type) {
                     <!-- JOB TITLE -->
                     <?php if (!empty($account_type)): ?>
                         <div class="listivo-single-user-profile__job-title">
-                            <?php echo esc_html($account_type === 'business' ? 'Business Brokers' : 'Buyers'); ?>
+                            <?php echo esc_html($account_type === 'business' ? 'Business Broker' : 'Private Seller'); ?>
                         </div>
                     <?php endif; ?>
 
@@ -608,7 +621,7 @@ if ($search || $location || $user_type) {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C2.24609 0 0 2.27981 0 5.07505C0 5.8601 0.316406 6.72048 0.753906 7.62843C1.19141 8.54036 1.76172 9.49193 2.33594 10.3602C3.47656 12.1008 4.61328 13.5163 4.61328 13.5163L5 14L5.38672 13.5163C5.38672 13.5163 6.52344 12.1008 7.66797 10.3602C8.23828 9.49193 8.80859 8.54036 9.24609 7.62843C9.68359 6.72048 10 5.8601 10 5.07505C10 2.27981 7.75391 0 5 0ZM5 1.01514C7.21484 1.01514 9 2.82709 9 5.07518C9 5.55096 8.75391 6.33997 8.34766 7.18449C7.94141 8.03298 7.38672 8.95283 6.83594 9.80132C5.99563 11.0789 5.40082 11.8315 5.08146 12.2356L5 12.3388L4.91854 12.2356C4.59919 11.8315 4.00437 11.0789 3.16406 9.80132C2.61328 8.95283 2.05859 8.03298 1.65234 7.18449C1.24609 6.33997 1 5.55096 1 5.07518C1 2.82709 2.78516 1.01514 5 1.01514ZM4.00002 5.06006C4.00002 4.50928 4.44924 4.06006 5.00002 4.06006C5.5508 4.06006 6.00002 4.50928 6.00002 5.06006C6.00002 5.61084 5.5508 6.06006 5.00002 6.06006C4.44924 6.06006 4.00002 5.61084 4.00002 5.06006Z" fill="#374B5C"></path>
                                     </svg>
-                                span>
+                                </span>
                                 <?php echo esc_html($user_location); ?>
                             </div>
                         <?php endif; ?>
@@ -626,6 +639,16 @@ if ($search || $location || $user_type) {
                                 </div>
                             </div>
                         <?php endif; ?>
+
+                         <div class="listivo-user-card-meta-item">
+                            <span class="listivo-user-card-meta-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot">
+                                    <path d="m12 8 6-3-6-3v10" />
+                                    <path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12" />
+                                    <path d="m6.49 12.85 11.02 6.3" />
+                                    <path d="M17.51 12.85 6.5 19.15" />
+                                </svg></span>
+                            <?php echo esc_html($listing_count); ?> Listings
+                        </div>
 
                         <!-- SOCIAL ICONS (Moved) -->
                         <?php if ($facebook || $twitter || $linkedin): ?>
@@ -657,16 +680,6 @@ if ($search || $location || $user_type) {
                                 </div>
                             </div>
                         <?php endif; ?>
-
-                        <div class="listivo-user-card-meta-item">
-                            <span class="listivo-user-card-meta-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot">
-                                    <path d="m12 8 6-3-6-3v10" />
-                                    <path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12" />
-                                    <path d="m6.49 12.85 11.02 6.3" />
-                                    <path d="M17.51 12.85 6.5 19.15" />
-                                </svg></span>
-                            <?php echo esc_html($listing_count); ?> Listings
-                        </div>
                     </div>
 
                     <?php if (!empty($user_description)): ?>

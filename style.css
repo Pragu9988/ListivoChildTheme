@@ -347,3 +347,11 @@ Text Domain: listivo
         max-width: 840px;
     }
 }
+
+.listivo-user-dropdown {
+    left: -110px;
+}
+
+.listivo-stats-v1 {
+    border-width: 0;
+}
