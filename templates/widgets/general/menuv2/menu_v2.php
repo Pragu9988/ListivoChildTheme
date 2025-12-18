@@ -103,12 +103,17 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
 
                 <?php if (!$lstUser && tdf_settings()->userRegistrationOpen()) : ?>
                     <div class="listivo-menu-mobile-v2__register-links listivo-menu-mobile-v2__item">
+                        <a href="<?php echo esc_url(tdf_settings()->getLoginPageUrlWithoutTab()); ?>">
+                            <?php esc_html_e('Login', 'listivo'); ?>
+                        </a>
+                    </div>
+                    <div class="listivo-menu-mobile-v2__register-links listivo-menu-mobile-v2__item">
                         <a href="<?php echo esc_url(home_url('/buyer-register'))?>">
                             <?php esc_html_e('Register As Buyer', 'listivo'); ?>
                         </a>
                     </div>
                     <div class="listivo-menu-mobile-v2__register-links listivo-menu-mobile-v2__item">
-                        <a href="<?php echo esc_url(home_url('/seller-register'))?>">
+                        <a href="<?php echo esc_url(tdf_settings()->getRegisterPageUrl()); ?>">
                             <?php esc_html_e('Register As Seller', 'listivo'); ?>
                         </a>
                     </div>

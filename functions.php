@@ -40,6 +40,20 @@ add_action('wp_enqueue_scripts', function () {
         true
     );
 
+    wp_enqueue_script(
+        'auto-populate-postcode',
+        get_stylesheet_directory_uri() . '/assets/js/auto-populate-postcode.js',
+        ['jquery'],
+        false,
+        true
+    );
+
+    wp_localize_script(
+        'auto-populate-postcode',
+        'ajaxurl',
+        admin_url('admin-ajax.php')
+    );
+
     $agents_count = count(
         get_users([
             'meta_key'     => 'account_type',
@@ -439,4 +453,25 @@ function tdf_user_has_role(string $role, $user = null): bool
 
 function is_tdf_buyer($user = null): bool    { 
     return tdf_user_has_role('buyer', $user); 
+}
+
+add_action('wp_ajax_get_postcode_by_suburb_name', 'get_postcode_by_suburb_name');
+add_action('wp_ajax_nopriv_get_postcode_by_suburb_name', 'get_postcode_by_suburb_name');
+
+function get_postcode_by_suburb_name() {
+    $suburb_name = sanitize_text_field($_POST['suburb_name'] ?? 0);
+
+    if (!$suburb_name) {
+        wp_send_json_error('Invalid suburb');
+    }
+
+    $term = get_term_by('name', $suburb_name, 'listivo_11337');
+
+    if (!$term) {
+        wp_send_json_error();
+    }
+
+    wp_send_json_success([
+        'postcode' => get_term_meta($term->term_id, 'postcode', true)
+    ]);
 }

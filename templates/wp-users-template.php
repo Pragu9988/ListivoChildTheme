@@ -706,9 +706,9 @@ if ($search || $location || $user_type) {
 $total_pages = ceil($total_users / $per_page);
 
 if ($total_pages > 1): ?>
-    <div class="lst-pagination">
+    <div class="listivo-pagination">
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a class="lst-page <?php echo ($i == $page) ? 'active' : ''; ?>"
+            <a class="listivo-pagination__item <?php echo ($i == $page) ? 'listivo-pagination__item--active' : ''; ?>"
                 href="?lp=<?php echo $i; ?>&<?php echo http_build_query(array_merge($_GET, ['lp' => $i])); // Preserve other params 
                                             ?>">
                 <?php echo $i; ?>
