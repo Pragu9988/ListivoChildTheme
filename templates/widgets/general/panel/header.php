@@ -20,7 +20,7 @@ global $lstCurrentWidget;
             </a>
         <?php endif; ?>
 
-        <!-- <?php if (tdf_current_user()->isModerator() && !is_tdf_buyer()) : ?>
+        <?php if (tdf_current_user()->isModerator() && !is_tdf_buyer()) : ?>
             <a
                 <?php if ($lstCurrentWidget->isActionActive(PanelWidget::ACTION_MODERATION)) : ?>
                     class="listivo-panel-menu__item listivo-panel-menu__item--active"
@@ -31,7 +31,7 @@ global $lstCurrentWidget;
             >
                 <?php echo esc_html(tdf_string('moderation')); ?>
             </a>
-        <?php endif; ?> -->
+        <?php endif; ?>
 
         <?php if (class_exists(\WooCommerce::class) && tdf_current_user()->canSeeOrders() && tdf_settings()->paymentsEnabled() && !is_tdf_buyer()) : ?>
             <a

@@ -177,6 +177,16 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                         </div>
                     <?php endif; ?>
                 </div>
+                <?php if ($lstUser) : ?>
+                    <div class="listivo-menu-mobile-v2__register-links listivo-menu-mobile-v2__item">
+                        <a
+                            class="listivo-panel-menu__item listivo-panel-menu__item--tablet-only"
+                            href="<?php echo esc_url(tdf_logout_url()); ?>"
+                        >
+                            <?php echo esc_html(tdf_string('log_out')); ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
 
                 <div class="listivo-menu-mobile-v2__socials">
                     <div class="listivo-social-icons">
@@ -436,7 +446,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                 </a>
                                             <?php endif; ?>
 
-                                            <!-- <?php if (tdf_current_user()->isModerator() && !is_tdf_buyer()) : ?>
+                                            <?php if (tdf_current_user()->isModerator() && !is_tdf_buyer()) : ?>
                                                 <a
                                                         class="listivo-user-dropdown__item"
                                                         href="<?php echo esc_url(PanelWidget::getUrl(PanelWidget::ACTION_MODERATION)); ?>"
@@ -473,7 +483,7 @@ $lstSimpleMenu = tdf_settings()->showMenuAccount();
                                                         </div>
                                                     </div>
                                                 </a>
-                                            <?php endif; ?> -->
+                                            <?php endif; ?>
 
                                             <!-- <?php if (class_exists(\WooCommerce::class) && tdf_settings()->paymentsEnabled() && tdf_current_user()->canSeeOrders() && !is_tdf_buyer()) : ?>
                                                 <a
