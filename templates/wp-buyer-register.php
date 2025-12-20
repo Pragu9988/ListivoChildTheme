@@ -30,7 +30,7 @@ function custom_buyer_registration_form() {
     }
 
     $output .= '
-    <form method="post" class="buyer-register-form">
+    <form method="post" class="buyer-register-form" id="buyer-register-form">
         
         <!-- Username Field -->
         <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon" style="display: none !important;">
@@ -102,9 +102,11 @@ function custom_buyer_registration_form() {
                         required 
                         placeholder="' . esc_attr__('Phone', 'listivo') . '*" 
                         value="' . (isset($_POST['buyer_phone']) ? esc_attr($_POST['buyer_phone']) : '') . '" 
-                        maxlength="10" 
-                        pattern="[0-9]*" 
+                        maxlength="10"
+                        minlength="10"
+                        pattern="[0-9]{10}" 
                         oninput="this.value = this.value.replace(/[^0-9]/g, \'\').substring(0, 10);"
+                        title="' . esc_attr__('Please enter exactly 10 digits', 'listivo') . '"
                     />
                 </div>
             </label>
@@ -117,17 +119,25 @@ function custom_buyer_registration_form() {
                     <path d="M6.09524 0C3.56281 0 1.52381 2.039 1.52381 4.57143V5.33333C0.691 5.33333 0 6.02433 0 6.85714V14.4762C0 15.309 0.691 16 1.52381 16H10.6667C11.4995 16 12.1905 15.309 12.1905 14.4762V6.85714C12.1905 6.02433 11.4995 5.33333 10.6667 5.33333V4.57143C10.6667 2.039 8.62766 0 6.09524 0ZM6.09524 1.52381C7.82948 1.52381 9.14286 2.83719 9.14286 4.57143V5.33333H3.04762V4.57143C3.04762 2.83719 4.361 1.52381 6.09524 1.52381ZM1.52381 6.85714H10.6667V14.4762H1.52381V6.85714ZM6.09524 9.14286C5.25714 9.14286 4.57143 9.82857 4.57143 10.6667C4.57143 11.5048 5.25714 12.1905 6.09524 12.1905C6.93333 12.1905 7.61905 11.5048 7.61905 10.6667C7.61905 9.82857 6.93333 9.14286 6.09524 9.14286Z" fill="#FDFDFE"/>
                 </svg>
             </div>
-            <input type="password" name="buyer_password" id="buyer_password" required placeholder="' . esc_attr__('Password', 'listivo') . '*" />
+            <input type="password" name="buyer_password" id="buyer_password" required placeholder="' . esc_attr__('Password (Min. 8 char)', 'listivo') . '*" />
+            
+            <button type="button" class="listivo-input-v2__clear listivo-input-v2__password-toggle" onclick="togglePassword(\'buyer_password\')">
+                <i class="far fa-eye" id="icon_buyer_password"></i>
+            </button>
         </div>
 
         <!-- Confirm Password Field -->
         <div class="listivo-login-form__field listivo-input-v2 listivo-input-v2--with-icon">
-            <div class="listivo-input-v2__icon listivo-icon-v2">
+             <div class="listivo-input-v2__icon listivo-icon-v2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 13 16" fill="none">
                     <path d="M6.09524 0C3.56281 0 1.52381 2.039 1.52381 4.57143V5.33333C0.691 5.33333 0 6.02433 0 6.85714V14.4762C0 15.309 0.691 16 1.52381 16H10.6667C11.4995 16 12.1905 15.309 12.1905 14.4762V6.85714C12.1905 6.02433 11.4995 5.33333 10.6667 5.33333V4.57143C10.6667 2.039 8.62766 0 6.09524 0ZM6.09524 1.52381C7.82948 1.52381 9.14286 2.83719 9.14286 4.57143V5.33333H3.04762V4.57143C3.04762 2.83719 4.361 1.52381 6.09524 1.52381ZM1.52381 6.85714H10.6667V14.4762H1.52381V6.85714ZM6.09524 9.14286C5.25714 9.14286 4.57143 9.82857 4.57143 10.6667C4.57143 11.5048 5.25714 12.1905 6.09524 12.1905C6.93333 12.1905 7.61905 11.5048 7.61905 10.6667C7.61905 9.82857 6.93333 9.14286 6.09524 9.14286Z" fill="#FDFDFE"/>
                 </svg>
             </div>
-            <input type="password" name="buyer_password_confirm" id="buyer_password_confirm" required placeholder="' . esc_attr__('Confirm Password', 'listivo') . '*" />
+            <input type="password" name="buyer_password_confirm" id="buyer_password_confirm" required placeholder="' . esc_attr__('Confirm Password (Min. 8 char)', 'listivo') . '*" />
+            
+            <button type="button" class="listivo-input-v2__clear listivo-input-v2__password-toggle" onclick="togglePassword(\'buyer_password_confirm\')">
+                <i class="far fa-eye" id="icon_buyer_password_confirm"></i>
+            </button>
         </div>
 
         <div class="listivo-login-form__actions" style="margin-top: 20px;">
@@ -146,6 +156,43 @@ function custom_buyer_registration_form() {
             </a>
         </div>
     </form>
+    
+    <script>
+    function togglePassword(fieldId) {
+        var input = document.getElementById(fieldId);
+        var icon = document.getElementById("icon_" + fieldId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    document.getElementById("buyer-register-form").addEventListener("submit", function(event) {
+        var phone = document.getElementById("buyer_phone");
+        var password = document.getElementById("buyer_password");
+        var confirm = document.getElementById("buyer_password_confirm");
+        var errors = [];
+        
+        // Strict 10 digit check
+        if (phone.value.length !== 10) {
+            errors.push("' . esc_js(__('Phone number must be exactly 10 digits.', 'listivo')) . '");
+        }
+        
+        if (password.value !== confirm.value) {
+            errors.push("' . esc_js(__('Passwords do not match.', 'listivo')) . '");
+        }
+        
+        if (errors.length > 0) {
+            event.preventDefault();
+            alert(errors.join("\n"));
+        }
+    });
+    </script>
     </div>
     </div>
     </div>
@@ -185,8 +232,8 @@ function handle_buyer_registration() {
         } else {
             // Remove non-numeric characters for check to be safe
             $numeric_phone = preg_replace('/[^0-9]/', '', $phone);
-            if (!is_numeric($numeric_phone) || strlen($numeric_phone) > 10) {
-                $errors[] = "Phone number must be digits only and maximum 10 digits.";
+            if (!is_numeric($numeric_phone) || strlen($numeric_phone) !== 10) {
+                $errors[] = "Phone number must be exactly 10 digits.";
             }
         }
         if (strlen($password) < 6) $errors[] = "Password must be at least 6 characters.";

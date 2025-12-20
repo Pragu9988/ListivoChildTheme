@@ -430,7 +430,7 @@ if (tdf_settings()->showFacebookAuth() || tdf_settings()->showGoogleAuth()) : ?>
                         @input="registerForm.setPassword($event.target.value)"
                         :value="registerForm.password"
                         :type="registerForm.passwordVisible ? 'text' : 'password'"
-                        placeholder="<?php echo esc_attr(tdf_string('password')); ?>*"
+                        placeholder="<?php echo esc_attr('Password (Min. 8 char)', 'listivo'); ?>*"
                 >
 
                 <?php if ($lstCurrentWidget instanceof \Tangibledesign\Listivo\Widgets\General\LoginAndRegisterWidget && $lstCurrentWidget->showPasswordToggle()) : ?>

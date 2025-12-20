@@ -155,7 +155,7 @@ global $lstCurrentWidget;
                 <input
                         id="listivo-password"
                         :type="loginForm.passwordVisible ? 'text' : 'password'"
-                        placeholder="<?php echo esc_attr(tdf_string('password')); ?>"
+                        placeholder="<?php echo esc_attr('Password (Min. 8 char)', 'listivo'); ?>"
                         :value="loginForm.password"
                         @input="loginForm.setPassword($event.target.value)"
                 >
