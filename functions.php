@@ -475,3 +475,29 @@ function get_postcode_by_suburb_name() {
         'postcode' => get_term_meta($term->term_id, 'postcode', true)
     ]);
 }
+
+// add_filter('wp_count_terms', '__return_false');
+
+add_filter('register_taxonomy_args', function ($args, $taxonomy) {
+    if ($taxonomy === 'listivo_11337') {
+        $args['show_ui'] = false;
+        $args['show_in_menu'] = false;
+        $args['show_admin_column'] = false;
+    }
+    return $args;
+}, 10, 2);
+
+add_action('admin_menu', function () {
+    remove_submenu_page(
+        'edit.php?post_type=listivo_listing',
+        'edit-tags.php?taxonomy=listivo_11337&post_type=listivo_listing'
+    );
+}, 999);
+
+add_action('admin_init', function () {
+    remove_meta_box(
+        'tagsdiv-listivo_11337',
+        'listivo_listing',
+        'side'
+    );
+});
